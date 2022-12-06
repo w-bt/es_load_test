@@ -42,7 +42,8 @@ func (service itemService) GetItem(ctx context.Context, req search.Request) (*co
 	}
 
 	return &contracts.SearchResponse{
-		Items: result.Items,
+		Items:        result.Items,
+		Aggregations: result.Aggregations,
 	}, nil
 }
 

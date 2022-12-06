@@ -5,5 +5,6 @@ import (
 )
 
 type Result struct {
-	Items []models.Item
+	Items        []models.Item
+	Aggregations []string
 }

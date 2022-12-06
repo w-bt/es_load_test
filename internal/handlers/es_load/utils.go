@@ -13,6 +13,10 @@ func getQuery(query url.Values) string {
 	return query.Get("query")
 }
 
+func getAggregator(query url.Values) string {
+	return query.Get("agg")
+}
+
 func getIndex(query url.Values) string {
 	return query.Get("index")
 }

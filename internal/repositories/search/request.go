@@ -3,6 +3,7 @@ package search
 type Request struct {
 	Query     string
 	IndexName string
+	Agg       string
 	Page      int
 	NextPage  int
 	Size      int

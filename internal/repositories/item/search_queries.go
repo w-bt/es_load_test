@@ -9,6 +9,10 @@ import (
 	"github.com/pkg/errors"
 )
 
+const (
+	aggResult = "_agg_result"
+)
+
 func (s *QueriesService) SearchQuery() SearchQueryFunc {
 	return s.searchResult
 }
@@ -19,6 +23,11 @@ func (s *QueriesService) esSearch(ctx context.Context, req search.Request) (*ela
 	searchSvc := s.client.Search().
 		Index(req.IndexName).
 		Query(elasticQ)
+
+	if req.Agg != "" {
+		agg := elastic.NewTermsAggregation().Field(req.Agg).Size(500)
+		searchSvc = searchSvc.Aggregation(aggResult, agg)
+	}
 
 	var err error
 	results, err := searchSvc.
@@ -36,7 +45,6 @@ func (s *QueriesService) searchResult(ctx context.Context, req search.Request) (
 	hits, err := getHits(results)
 	if err != nil {
 		return search.Result{}, errors.Wrap(err, "Unable to get hits for item")
-
 	}
 
 	var items []models.Item
@@ -52,6 +60,17 @@ func (s *QueriesService) searchResult(ctx context.Context, req search.Request) (
 	}
 
 	sr := search.Result{Items: items}
+
+	aggs, ok := results.Aggregations.Terms(aggResult)
+	if ok {
+		var itemRes []string
+
+		for _, bucket := range aggs.Buckets {
+			itemRes = append(itemRes, bucket.Key.(string))
+		}
+
+		sr.Aggregations = itemRes
+	}
 
 	return sr, nil
 }

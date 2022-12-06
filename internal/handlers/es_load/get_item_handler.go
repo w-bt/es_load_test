@@ -45,9 +45,11 @@ var createSearchRequest = func(r *http.Request) search.Request {
 	if index == "" {
 		index = constant.DefaultIndexName
 	}
+	agg := getAggregator(qParam)
 
 	return search.Request{
 		Query:     query,
+		Agg:       agg,
 		IndexName: index,
 		Page:      page,
 		NextPage:  page + 1,
