@@ -11,7 +11,7 @@ import (
 
 func CreateIndexCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:     "create-index",
+		Use:     "create_index",
 		Short:   "Create IndexName",
 		Aliases: []string{"create"},
 		Run: func(_ *cobra.Command, args []string) {
