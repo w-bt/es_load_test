@@ -1,0 +1,4 @@
+APP_HOST: "localhost"
+APP_PORT: "8080"
+ES_CLUSTER_HOSTS: "http://localhost:9200"
+ES_HTTP_TIMEOUT_MS: "50000"
