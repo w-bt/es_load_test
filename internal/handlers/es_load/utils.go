@@ -21,6 +21,19 @@ func getRefresh(query url.Values) bool {
 	return query.Get("refresh") == "true"
 }
 
+func getFlush(query url.Values) bool {
+	return query.Get("flush") == "true"
+}
+
+func getBatchSize(query url.Values) int {
+	size, err := strconv.Atoi(query.Get("batch_size"))
+	if err != nil {
+		return 0
+	}
+
+	return size
+}
+
 func getPageNumber(query url.Values) int {
 	page, err := strconv.Atoi(query.Get("page"))
 	if err != nil {

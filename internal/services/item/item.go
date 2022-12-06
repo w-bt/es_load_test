@@ -3,12 +3,13 @@ package item
 import (
 	"context"
 	"errors"
+	"fmt"
+
 	"es_load_test/contracts"
 	"es_load_test/internal/repositories/cluster"
 	"es_load_test/internal/repositories/index"
 	"es_load_test/internal/repositories/item"
 	"es_load_test/internal/repositories/search"
-	"fmt"
 )
 
 const ErrItemNotFound = "Item not found"
@@ -17,6 +18,7 @@ type Service interface {
 	GetItem(ctx context.Context, req search.Request) (*contracts.SearchResponse, error)
 	CreateIndex(ctx context.Context, req cluster.Request) (*contracts.CreateIndexResponse, error)
 	IndexDoc(ctx context.Context, req index.Request) (*contracts.IndexDocResponse, error)
+	BulkIndexDoc(ctx context.Context, req index.Request) (*contracts.BulkIndexDocResponse, error)
 }
 
 type itemService struct {
@@ -58,11 +60,23 @@ func (service itemService) CreateIndex(ctx context.Context, req cluster.Request)
 func (service itemService) IndexDoc(ctx context.Context, req index.Request) (*contracts.IndexDocResponse, error) {
 	itemDoc, err := service.itemRepository.IndexDoc(ctx, req)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Error while fetching item with req %+v", req))
+		return nil, errors.New(fmt.Sprintf("Error while indexing item with req %+v, err %+v", req, err))
 	}
 
 	return &contracts.IndexDocResponse{
 		Message: "success",
 		Data:    itemDoc,
+	}, nil
+}
+
+func (service itemService) BulkIndexDoc(ctx context.Context, req index.Request) (*contracts.BulkIndexDocResponse, error) {
+	err := service.itemRepository.BulkIndexDoc(ctx, req)
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("Error while fetching item with req %+v, err %+v", req, err))
+	}
+
+	return &contracts.BulkIndexDocResponse{
+		Message:  "success",
+		TotalDoc: req.BatchSize,
 	}, nil
 }

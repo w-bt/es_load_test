@@ -20,11 +20,13 @@ import (
 type SearchQueryFunc func(ctx context.Context, req search.Request) (search.Result, error)
 type CreateIndexQueryFunc func(ctx context.Context, req cluster.Request) error
 type IndexDocQueryFunc func(ctx context.Context, req index.Request) (models.Item, error)
+type BulkIndexDocQueryFunc func(ctx context.Context, req index.Request) error
 
 type Queries interface {
 	SearchQuery() SearchQueryFunc
 	CreateIndexQuery() CreateIndexQueryFunc
 	IndexDocQuery() IndexDocQueryFunc
+	BulkIndexDocQuery() BulkIndexDocQueryFunc
 }
 
 type QueriesService struct {

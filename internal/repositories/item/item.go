@@ -2,6 +2,7 @@ package item
 
 import (
 	"context"
+
 	"es_load_test/internal/models"
 	"es_load_test/internal/repositories/cluster"
 	"es_load_test/internal/repositories/index"
@@ -12,6 +13,7 @@ type Repository interface {
 	Search(ctx context.Context, req search.Request) (search.Result, error)
 	CreateIndex(ctx context.Context, req cluster.Request) error
 	IndexDoc(ctx context.Context, req index.Request) (models.Item, error)
+	BulkIndexDoc(ctx context.Context, req index.Request) error
 }
 
 type itemRepo struct {
@@ -50,4 +52,14 @@ func (repo itemRepo) IndexDoc(ctx context.Context, req index.Request) (models.It
 	}
 
 	return item, nil
+}
+
+func (repo itemRepo) BulkIndexDoc(ctx context.Context, req index.Request) error {
+	query := repo.queries.BulkIndexDocQuery()
+	err := query(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

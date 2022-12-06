@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"net/http"
+
 	"es_load_test/appcontext"
 	esLoad "es_load_test/internal/handlers/es_load"
-	"net/http"
 
 	"github.com/gorilla/mux"
 )
@@ -22,8 +23,11 @@ func registerAPI(deps *appcontext.ServerDependencies, router *mux.Router) {
 	s := deps.Services
 
 	getItem := esLoad.GetItemHandler(s.Item)
-	router.Handle("/es_load/simple/item", getItem).Methods(http.MethodGet)
+	router.Handle("/es_load/item", getItem).Methods(http.MethodGet)
 
 	postItem := esLoad.CreateItemHandler(s.Item)
-	router.Handle("/es_load/simple/item", postItem).Methods(http.MethodPost)
+	router.Handle("/es_load/item", postItem).Methods(http.MethodPost)
+
+	postBulkItem := esLoad.CreateBulkItemHandler(s.Item)
+	router.Handle("/es_load/bulk_item", postBulkItem).Methods(http.MethodPost)
 }
