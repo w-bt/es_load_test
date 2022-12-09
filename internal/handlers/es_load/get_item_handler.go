@@ -8,8 +8,6 @@ import (
 	"es_load_test/internal/repositories/search"
 	"es_load_test/internal/services/item"
 	"es_load_test/internal/utils"
-
-	"github.com/bxcodec/faker/v4"
 )
 
 func GetItemHandler(is item.Service) http.HandlerFunc {
@@ -37,7 +35,7 @@ var createSearchRequest = func(r *http.Request) search.Request {
 	qParam := r.URL.Query()
 	query := getQuery(qParam)
 	if query == "" {
-		query = faker.Word()
+		query = utils.RandStringRunes(5)
 	}
 	page := getPageNumber(qParam)
 	size := getPageSize(qParam)

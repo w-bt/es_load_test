@@ -3,7 +3,6 @@ module es_load_test
 go 1.18
 
 require (
-	github.com/bxcodec/faker/v4 v4.0.0-beta.3
 	github.com/google/uuid v1.1.2
 	github.com/gorilla/mux v1.8.0
 	github.com/olivere/elastic/v7 v7.0.32

@@ -1,22 +1,22 @@
 package item
 
 import (
+	"es_load_test/internal/models"
+	"es_load_test/internal/utils"
 	"fmt"
 	"math/rand"
 
-	"es_load_test/internal/models"
-
-	"github.com/bxcodec/faker/v4"
+	"github.com/google/uuid"
 )
 
 func (qs *builderService) GenerateDoc() *models.Item {
 	item := &models.Item{
-		Name:          fmt.Sprintf("%s %s", faker.Word(), faker.Word()),
-		BrandName:     faker.Word(),
-		CategoryNames: []string{faker.Word()},
-		Tags:          []string{faker.Word()},
+		Name:          fmt.Sprintf("%s %s", utils.RandStringRunes(5), utils.RandStringRunes(5)),
+		BrandName:     utils.RandStringRunes(5),
+		CategoryNames: []string{utils.RandStringRunes(5)},
+		Tags:          []string{utils.RandStringRunes(5)},
 		Price:         getPrice(),
-		Code:          faker.UUIDDigit(),
+		Code:          uuid.New().String(),
 	}
 
 	return item
