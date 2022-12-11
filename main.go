@@ -45,6 +45,7 @@ func newCLI() *cobra.Command {
 
 	cli.AddCommand(cmd.CreateIndexCmd())
 	cli.AddCommand(cmd.StartAPIServerCmd())
+	cli.AddCommand(cmd.StartVegetaServerCmd())
 
 	return cli
 }

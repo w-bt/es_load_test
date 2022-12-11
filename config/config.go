@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/spf13/viper"
 )
@@ -8,9 +9,18 @@ import (
 var Cfg *Config
 
 type Config struct {
-	es   Elasticsearch
-	host string
-	port int
+	es        Elasticsearch
+	scenarios []Scenario
+	host      string
+	port      int
+}
+
+type Scenario struct {
+	Case       int    `json:"case"`
+	Url        string `json:"url"`
+	Duration   int    `json:"duration"`
+	Rates      []int  `json:"rates"`
+	MaxWorkers int    `json:"max_workers"`
 }
 
 func Load() error {
@@ -32,12 +42,23 @@ func Load() error {
 	}
 
 	Cfg = &Config{
-		es:   newESConfig(),
-		host: getStringOrPanic("APP_HOST"),
-		port: getIntOrDefault("APP_PORT", 8080),
+		es:        newESConfig(),
+		host:      getStringOrPanic("APP_HOST"),
+		port:      getIntOrDefault("APP_PORT", 8080),
+		scenarios: parseScenario(),
 	}
 
 	return nil
+}
+
+func parseScenario() (scenarios []Scenario) {
+	rawString := getStringOrPanic("ES_SCENARIOS")
+	err := json.Unmarshal([]byte(rawString), &scenarios)
+	if err != nil {
+		panic(err)
+	}
+
+	return
 }
 
 func (c *Config) Addr() string {
@@ -46,4 +67,8 @@ func (c *Config) Addr() string {
 
 func (c *Config) GetES() Elasticsearch {
 	return c.es
+}
+
+func (c *Config) GetESScenarios() []Scenario {
+	return c.scenarios
 }
