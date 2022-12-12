@@ -167,7 +167,7 @@ cat results_usecase_3000rps_2.3.bin | vegeta report -type="hist[0,50ms,100ms,150
 * USE CASE 3 SIMPLE SEARCHING
 */
 
-echo "GET http://localhost:8080/es_load/item | vegeta attack -rate=1000 -max-workers=1000 -duration=300s | tee results_usecase_1000rps_3.bin | vegeta report
+echo "GET http://localhost:8080/es_load/item" | vegeta attack -rate=1000 -max-workers=1000 -duration=300s | tee results_usecase_1000rps_3.bin | vegeta report
 
 vegeta report -type=json results_usecase_1000rps_3.bin > metrics_usecase_1000rps_3.json
 cat results_usecase_1000rps_3.bin | vegeta plot > plot_usecase_1000rps_3.html
@@ -175,7 +175,7 @@ cat results_usecase_1000rps_3.bin | vegeta report -type="hist[0,50ms,100ms,150ms
 
 ==================================================
 
-echo "GET http://localhost:8080/es_load/item | vegeta attack -rate=2000 -max-workers=1000 -duration=300s | tee results_usecase_2000rps_3.bin | vegeta report
+echo "GET http://localhost:8080/es_load/item" | vegeta attack -rate=2000 -max-workers=1000 -duration=300s | tee results_usecase_2000rps_3.bin | vegeta report
 
 vegeta report -type=json results_usecase_2000rps_3.bin > metrics_usecase_2000rps_3.json
 cat results_usecase_2000rps_3.bin | vegeta plot > plot_usecase_2000rps_3.html
@@ -183,7 +183,7 @@ cat results_usecase_2000rps_3.bin | vegeta report -type="hist[0,50ms,100ms,150ms
 
 ==================================================
 
-echo "GET http://localhost:8080/es_load/item | vegeta attack -rate=3000 -max-workers=1000 -duration=300s | tee results_usecase_3000rps_3.bin | vegeta report
+echo "GET http://localhost:8080/es_load/item" | vegeta attack -rate=3000 -max-workers=1000 -duration=300s | tee results_usecase_3000rps_3.bin | vegeta report
 
 vegeta report -type=json results_usecase_3000rps_3.bin > metrics_usecase_3000rps_3.json
 cat results_usecase_3000rps_3.bin | vegeta plot > plot_usecase_3000rps_3.html
