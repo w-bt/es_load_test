@@ -24,7 +24,7 @@ func StartVegetaServerCmd() *cobra.Command {
 
 			for _, scenario := range config.Cfg.GetESScenarios() {
 				for _, rate := range scenario.Rates {
-					name := fmt.Sprintf("%d-%d-%d-%d", scenario.Case, rate, scenario.Duration, scenario.MaxWorkers)
+					name := fmt.Sprintf("%s-%d-%d-%d", scenario.Case, rate, scenario.Duration, scenario.MaxWorkers)
 					fmt.Printf("Attacking %s with rate %d - duration %d - max workers %d\n", scenario.Url, rate, scenario.Duration, scenario.MaxWorkers)
 					r := vegeta.Rate{Freq: rate, Per: time.Second}
 					targeter := vegeta.NewStaticTargeter(vegeta.Target{
@@ -53,6 +53,8 @@ func StartVegetaServerCmd() *cobra.Command {
 					fmt.Printf("Status Codes[code:count]: %v\r\n\n", metrics.StatusCodes)
 
 					fmt.Printf("\n==========================\n")
+
+					time.Sleep(3 * time.Minute)
 				}
 			}
 		},
@@ -61,7 +63,7 @@ func StartVegetaServerCmd() *cobra.Command {
 
 func hdrHistogramReporter(metrics vegeta.Metrics, name string) {
 	plot := vegeta.NewHDRHistogramPlotReporter(&metrics)
-	f, err := os.Create(fmt.Sprintf("%s.html", name))
+	f, err := os.Create(fmt.Sprintf("%s.hdr", name))
 	if err != nil {
 		panic(err)
 	}

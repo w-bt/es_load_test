@@ -16,7 +16,7 @@ type Config struct {
 }
 
 type Scenario struct {
-	Case       int    `json:"case"`
+	Case       string `json:"case"`
 	Url        string `json:"url"`
 	Duration   int    `json:"duration"`
 	Rates      []int  `json:"rates"`
