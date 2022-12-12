@@ -6,7 +6,7 @@
 ./out/es_load_test start
 
 /*
-* USE CASE 1 POPULATE SINGLE DOC
+* USE CASE 1 POPULATE SINGLE DOC (15:53)
 */
 
 echo "POST http://localhost:8080/es_load/item" | vegeta attack -rate=1000 -max-workers=1000 -duration=300s | tee results_usecase_1000rps_1.bin | vegeta report
@@ -71,7 +71,7 @@ cat results_usecase_1000rps_2.bin | vegeta report -type="hist[0,50ms,100ms,150ms
 
 ==================================================
 
-echo "POST http://localhost:8080/es_load/bulk_item" | vegeta attack -rate=2000 -max-workers=1000 -duration=300s | tee results_usecase_2000rps_2.bin | vegeta report
+echo "POST http://localhost:8080/es_load/bulk_item?batch_size=100" | vegeta attack -rate=2000 -max-workers=1000 -duration=300s | tee results_usecase_2000rps_2.bin | vegeta report
 
 vegeta report -type=json results_usecase_2000rps_2.bin > metrics_usecase_2000rps_2.json
 cat results_usecase_2000rps_2.bin | vegeta plot > plot_usecase_2000rps_2.html
@@ -79,7 +79,7 @@ cat results_usecase_2000rps_2.bin | vegeta report -type="hist[0,50ms,100ms,150ms
 
 ==================================================
 
-echo "POST http://localhost:8080/es_load/bulk_item" | vegeta attack -rate=3000 -max-workers=1000 -duration=300s | tee results_usecase_3000rps_2.bin | vegeta report
+echo "POST http://localhost:8080/es_load/bulk_item?batch_size=100" | vegeta attack -rate=3000 -max-workers=1000 -duration=300s | tee results_usecase_3000rps_2.bin | vegeta report
 
 vegeta report -type=json results_usecase_3000rps_2.bin > metrics_usecase_3000rps_2.json
 cat results_usecase_3000rps_2.bin | vegeta plot > plot_usecase_3000rps_2.html
